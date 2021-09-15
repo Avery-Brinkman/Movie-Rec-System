@@ -39,10 +39,8 @@ def populateData(existingData):
     df = pd.DataFrame.from_dict(newData, orient='index', columns=['title','rating','original_title','budget','genres','overview','runtime', 'release_date','popularity','production_companies','production_countries','revenue','vote_average','vote_count'])
     df.to_csv('movies.csv', index_label='id')
 
-def addNewID(existingData, newID, newRating):
+def addNewID(existingData, newID, newRating, apiData):
     newData = {}
-
-    apiData = req.get('https://api.themoviedb.org/3/movie/'+str(newID)+'?api_key=42468d346e59d2685235fee95a344f31').json()
 
     newData[newID] = []
     newData[newID].append(apiData['title'])
