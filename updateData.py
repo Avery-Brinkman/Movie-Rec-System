@@ -14,7 +14,6 @@ def getApiData(currentApiData, id):
         print('API call made on ' + apiData['title'])
         return apiData
     else:
-        # print('Skipping API call.')
         return currentApiData
 
 
@@ -60,8 +59,10 @@ def populateData(existingData):
     df.to_csv('movies.csv', index_label='id')
 
 
-def addNewID(existingData, newID, newRating, apiData):
+def infoByID(newID, newRating=0, apiData={}):
     newData = {}
+
+    apiData = getApiData(apiData, newID)
 
     newData[newID] = []
     newData[newID].append(apiData['title'])
@@ -74,7 +75,12 @@ def addNewID(existingData, newID, newRating, apiData):
     for d in dataIWant[1:]:
         newData[newID].append(formattedApiInfo(apiData, d))
 
-    newMovie = pd.DataFrame.from_dict(newData, orient='index', columns=['title', 'rating', 'original_title', 'budget', 'genres', 'overview',
+    return newData
+
+
+def addNewID(existingData, newID, newRating, apiData):
+    newMovieDict = infoByID(newID, newRating, apiData)
+    newMovie = pd.DataFrame.from_dict(newMovieDict, orient='index', columns=['title', 'rating', 'original_title', 'budget', 'genres', 'overview',
                                       'runtime', 'release_date', 'popularity', 'production_companies', 'production_countries', 'revenue', 'vote_average', 'vote_count'])
     newMovie.index.name = 'id'
 

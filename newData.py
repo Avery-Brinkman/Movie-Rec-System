@@ -10,6 +10,7 @@ populateData(pdMovies)
 rawInput = ''
 
 while True:
+    pdMovies = pd.read_csv('movies.csv', index_col='id')
 
     update = False
 
