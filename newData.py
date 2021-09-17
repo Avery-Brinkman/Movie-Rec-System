@@ -1,6 +1,7 @@
 import pandas as pd
 import requests as req
 from updateData import updateID, addNewID, populateData
+from movieAnalysis import createMovieData, createTree, makePrediction
 import os
 os.chdir('C:/Users/avery/Desktop')
 
@@ -8,11 +9,16 @@ pdMovies = pd.read_csv('movies.csv', index_col='id')
 populateData(pdMovies)
 
 rawInput = ''
+menuInput = ''
+
 
 while True:
     pdMovies = pd.read_csv('movies.csv', index_col='id')
 
     update = False
+
+    menuInput = input(
+        '[1] Add data (default), [2] Search by ID, [3] Get prediction: ').strip()
 
     # MOVIE ID INPUT
     rawInput = input('Enter the TMDB ID of the new movie: ').strip()
@@ -38,6 +44,16 @@ while True:
 
         else:
             break
+
+    # PREDICT MOVIE
+    if (menuInput == '3'):
+        print(makePrediction(pdMovies, newID))
+        continue
+
+    # SEARCH
+    elif (menuInput == '2'):
+        print('NOT YET IMPLEMENTED')
+        continue
 
     print()
     if update:
